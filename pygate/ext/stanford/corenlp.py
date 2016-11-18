@@ -41,7 +41,7 @@ class StanfordAnnotator(PR):
         tEnd = 0
         cStart = 0
         cEnd = 0
-        text = doc.getText()
+        text = doc.text()
         for s in output['sentences']:
             sentText = []
             sentTokens = []
@@ -56,10 +56,10 @@ class StanfordAnnotator(PR):
                 cEnd = cStart + len(txt_tkn)
 
                 token = Annotation(t['originalText'], tEnd, tEnd, cStart, cEnd, 'Token', doc)
-                token.setFeature('pos', t['pos'])
-                token.setFeature('lemma', t['lemma'])
-                token.setFeature('ner', t['ner'])
-                token.setFeature('index', t['index'])
+                token.set_feature('pos', t['pos'])
+                token.set_feature('lemma', t['lemma'])
+                token.set_feature('ner', t['ner'])
+                token.set_feature('index', t['index'])
                 tokens.append(token)
                 sentTokens.append(token)
                 tEnd += 1
@@ -71,11 +71,11 @@ class StanfordAnnotator(PR):
             sent = Annotation(sentText, tStart, tEnd, sentCStart, sentCEnd, 'Sentence', doc)
             tStart = tEnd
 
-            sent.setFeature('constituency-parse', s['parse'])
-            sent.setFeature('dep-parse', 'not implemented!')
-            sent.setFeature('index', s['index'])
-            sent.setRelation('tokens', sentTokens)
+            sent.set_feature('constituency-parse', s['parse'])
+            sent.set_feature('dep-parse', 'not implemented!')
+            sent.set_feature('index', s['index'])
+            sent.set_relation('tokens', sentTokens)
             sents.append(sent)
         # pr-
         doc.setSents(sents)
-        doc.setTokens(tokens)
+        doc.set_tokens(tokens)

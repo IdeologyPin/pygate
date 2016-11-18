@@ -2,7 +2,7 @@ from nltk.tree import *
 class TreeUtils:
     @classmethod
     def tree(self, clause_ann):
-        return ParentedTree.fromstring(clause_ann.getFeature('constituency-parse'))
+        return ParentedTree.fromstring(clause_ann.get_feature('constituency-parse'))
 
     @classmethod
     def getTokensWithinSubtree(self, sent, tree, subtree):
@@ -10,7 +10,7 @@ class TreeUtils:
         lpos = subtree.leaf_treeposition(0)
         subStart = tree.treepositions("leaves").index(spos + lpos)
         subEnd = subStart + len(subtree.leaves())
-        doc = sent.getDoc()
+        doc = sent.get_doc()
         return doc.getTokens()[sent.tStart + subStart: sent.tStart + subEnd]
 
     @classmethod

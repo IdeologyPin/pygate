@@ -1,0 +1,1 @@
+from textacy_prs import KeyTermAnnotatorPR

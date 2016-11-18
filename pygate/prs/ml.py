@@ -39,7 +39,7 @@ class ClassifierPR(PR):
         if self.filtr:
             feats = self.__filterFeatures(self.filtr)
         else:
-            feats = [(t.getFeatures(), t.getLabel(self.inputLabel)) for t in doc[self.level]]
+            feats = [(t.get_features(), t.get_label(self.inputLabel)) for t in doc[self.level]]
         self.data_set['all'].extend(feats)
 
     def __filterFeatures(self):
@@ -70,7 +70,6 @@ class ClassifierPR(PR):
 
         train_set = self.data_set['train']
         self.model = self.modelClass.train(train_set, **modelParams)
-
         if validate: self.validate()
 
     def validate(self, dataset_name='validation'):
@@ -113,10 +112,10 @@ class ClassifierPR(PR):
         self.data_set[data_set_to] = balancedSet
 
     def predict(self, doc):
-        feats = [t.getFeatures() for t in doc[self.level]]
+        feats = [t.get_features() for t in doc[self.level]]
         preds = self.model.classify_many(feats)
         for i, ann in enumerate(doc[self.level]):
-            ann.setLabel(self.outputLabel, preds[i])
+            ann.set_label(self.outputLabel, preds[i])
 
     def save(self, prFile, setMode='inference'):
         me = self

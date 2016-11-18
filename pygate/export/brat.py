@@ -1,7 +1,11 @@
-from pygate.doc import *
-from pygate.utils.fileUtils import *
 import re
+
 from IPython.display import IFrame
+
+from pygate.base.doc import *
+from pygate.utils.fileUtils import *
+
+
 # import codecs
 
 class BratFormat(object):
@@ -13,7 +17,6 @@ class BratFormat(object):
 
         if not os.path.exists(dir):
             os.makedirs(dir)
-
 
         with open(txtFile, 'w') as txtFile:
             txtFile.write(doc.getString())
@@ -29,7 +32,7 @@ class BratFormat(object):
     def __saveAnnotsOfType(self, doc, type, annFile, id_prefix):
         annots=doc[type]
         for ann in annots:
-            line="".join(['T',str(ann.idx) , '-', type , '\t' , ann.subType , ' ', str(ann.cStart),' ', str(ann.cEnd), '\t', ann.getText(), '\n'])
+            line="".join(['T', str(ann.idx) , '-', type , '\t' , ann.subType , ' ', str(ann.cStart),' ', str(ann.cEnd), '\t', ann.text(), '\n'])
             annFile.write(line.encode('utf-8'))
 
     def __saveRelationship(self):

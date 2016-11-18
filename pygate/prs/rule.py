@@ -36,7 +36,7 @@ class SPMRulePR(PR):
             raise NotImplemented('annot seq regex not implemented')
 
         span1_seq1_filter=span.split('@')[1]
-        span1_seq1_anns=doc.filterItems(span1_seq1_filter)
+        span1_seq1_anns=doc.filter_items(span1_seq1_filter)
 
         #for each span execute RHS
         for span1_seq1_ann in span1_seq1_anns:
@@ -54,8 +54,8 @@ class SPMRulePR(PR):
         split=RHS.split('->')
         annot_declaration=split[0]
         annoType=self.pat_annotType.findall(annot_declaration)[0][1:]
-        annot=Annotation(span.text, span.tStart, span.tEnd, span.cStart, span.cEnd,annoType, doc)
-        doc.addAnnotation(annot)
+        annot=Annotation(span.text, span.tStart, span.tEnd, span.cStart, span.cEnd, annoType, doc)
+        doc.add_annotation(annot)
         if len(split)>1:
             var_name=annot_declaration.split(":")[1]
             exec(var_name+"=annot")
@@ -75,15 +75,15 @@ from pygate.export.brat import BratServer
 ##test method
 if __name__ == "__main__":
     docStore=DocumentStore('./')
-    docStore.loadDocs(fileids='Former.*')
-    doc=docStore.getDocs()[0]
-    doc.setAnnotationSet('Entity',[])
+    docStore.load_docs(fileids='Former.*')
+    doc=docStore.get_docs()[0]
+    doc.set_annotation_set('Entity', [])
     spm=SPMRulePR("(@Token.features.ner!='O'):span --> @Entity:e ->  e.subType=span.features['ner']")
 
     spm.process(doc)
     print doc['Entity'][0].subType
     # print doc['Claim'][0].subType
-    docStore.saveDocs()
+    docStore.save_docs()
 
     bs=BratServer(dataDir='~/CMProject/viz/brat-v1.3_Crunchy_Frog/data/povmap')
     bs.saveDoc(doc, ['Entity', 'Claim'])

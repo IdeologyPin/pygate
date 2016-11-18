@@ -1,8 +1,7 @@
 __author__ = 'sasinda'
-import os
 import json
 import logging.config
-
+import os
 
 def setup_logging(
         default_path='./logging.json',
@@ -25,11 +24,6 @@ def setup_logging(
 setup_logging()
 
 #     Actual immports to init.
-from doc import *
-from annotation import Annotation
-from prs import rule as rule, ml as ml
-from pipe import *
+from base.doc import *
+from base.pipe import *
 
-import export as export
-import ext as ext
-import utils as utils
