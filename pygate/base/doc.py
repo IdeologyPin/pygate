@@ -98,7 +98,13 @@ class Document(Annotation):
         self.set_annotation_set('Sentence', sents)
 
     @property
-    def tokens(self, cStart, cEnd):
+    def tokens(self):
+        return self._tokens
+
+    def get_tokens(self, cStart=0, cEnd=-1):
+        if cStart == 0 and cEnd == -1:
+            return self._tokens
+
         if self.cindex['Token'] == None:
             self._make_cindex('Token')
         tkn_index = self.cindex['Token']
@@ -107,7 +113,6 @@ class Document(Annotation):
         for i in intervals:
             tokens.append(i[2])
         return tokens
-        return self._tokens;
 
     def __set_tokens(self, tokens):
         self._tokens = tokens

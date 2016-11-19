@@ -91,8 +91,8 @@ class Relegence:
     class Tagger:
         __req_base=_HOST + "/tagger/2.0"
 
-        def __init__(self):
-            pass
+        def __init__(self, parent):
+            self.parent=parent
 
         def get_tags(self,art_url, params={}):
             p = merge_dicts(params, self.parent._def_params)
