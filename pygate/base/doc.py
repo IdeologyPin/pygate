@@ -165,8 +165,19 @@ class Document(Annotation):
         pass
 
     def query_overlappedby_y(self, x, y_type):
+        '''
+        :param x:
+        :param y_type:
+        :return:
+        :rtype: List[ Annotation ]
+        '''
         cindex = self.__query_ready(y_type)
-        return cindex[x.cStart: x.cEnd]
+        ys=cindex[x.cStart: x.cEnd]
+
+        if len(ys)>0:
+            return [y[2] for y in ys]
+        else:
+            return None
 
     def __query_ready(self, ann_type):
         if self.cindex[ann_type] == None:
@@ -365,14 +376,19 @@ class DocumentStore(DataSink, DataSource):
 
 class AnnotationStore(DataSink, DataSource):
 
-    def __init__(self, ann_type):
+    def __init__(self, ann_type, filterby_attrib_exist=None):
+        self.filterby_attrib_exist = filterby_attrib_exist
         self.annots = []
         self.ann_type = ann_type
         self.data = self.annots
 
+
     def process(self, doc):
         for ann in doc[self.ann_type]:
-            self.annots.append(ann)
+            if not self.filterby_attrib_exist:
+                self.annots.append(ann)
+            elif ann.has_attribute(self.filterby_attrib_exist):
+                self.annots.append(ann)
 
 
 class NltkCorpus(DataSource):

@@ -1,1 +1,2 @@
-# pygate
+exit# pygate
+pip install -e .

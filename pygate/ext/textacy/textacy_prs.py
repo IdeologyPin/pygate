@@ -14,7 +14,8 @@ class KeyTermAnnotatorPR(PR):
         # ranked_results= [(u'damage', 0.10639087570986679), (u'tremor', 0.08286867428357408)...
         for result in ranked_results:
             tkns = doc.find_in_lemma(result[0])
-            a=doc.make_annotation(tkns, 'KeyTerm')
-            # :type a Annotation
-            a['score']=result[1]
-            a['key_term']=result[0]
+            if tkns:
+                a=doc.make_annotation(tkns, 'KeyTerm')
+                # :type a Annotation
+                a['score']=result[1]
+                a['key_term']=result[0]

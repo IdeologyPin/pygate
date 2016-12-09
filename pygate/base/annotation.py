@@ -17,6 +17,7 @@ class Annotation(object):
         self.doc = doc
         self.relations = defaultdict(lambda : [])
         self.idx = -1
+
         if type(text) == unicode:
             self._text = text
         else:
@@ -63,6 +64,9 @@ class Annotation(object):
     def get_attribute(self, name):
         return self.attributes[name]
 
+    def has_attribute(self, name):
+        return name in self.attributes
+
     def set_relation(self, relName, annots):
         """
             Use the Relation wrapper class to add additional details to the annotation.
@@ -73,7 +77,7 @@ class Annotation(object):
         self.relations[relName].append(annot)
 
     def get_relation(self, relName):
-        return self.relations[relName]
+        return self.relations.get(relName,[])
 
     def get_containing_annots(self, annotType):
         pass
@@ -90,7 +94,8 @@ class Annotation(object):
             else:
                 return self.doc[self.tEnd + 1 + key]
         else:
-            return self.items[key]
+            return self.items.get(key,[])
+
 
     def __setitem__(self, key, value):
         if key in ('features', 'labels', 'attributes'):
