@@ -1,7 +1,7 @@
 import requests
 import json
 
-_API_KEY = 'V7lmZgPn7NGdEYSp9DGA8l1AsK5zRy8I'
+_API_KEY = local_config.API_KEY
 _HOST = 'http://api.relegence.com/'
 _HOST_STAGING = 'http://stage.api.relegence.com/'
 _CACHE = {}
