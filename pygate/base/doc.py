@@ -129,7 +129,7 @@ class Document(Annotation):
         elif ann_type == 'Sentence':
             spans = self.sents
         else:
-            spans = self.items[ann_type]
+            spans = self.items.get(ann_type,[])
         for span in spans:
             tree[span.cStart: span.cEnd] = span
 
@@ -177,7 +177,7 @@ class Document(Annotation):
         if len(ys)>0:
             return [y[2] for y in ys]
         else:
-            return None
+            return []
 
     def __query_ready(self, ann_type):
         if self.cindex[ann_type] == None:

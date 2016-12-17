@@ -66,12 +66,13 @@ class Pipeline:
                 j+=1
 
         log.info( 'pipeline processed:'+ str(i) + 'documents, skipped:'+ str(j))
-        return docs, exceptions
+        return PipeLineResults(docs, exceptions)
     
     def processDoc(self, doc):
         for pr in self.__PRs:
             pr.process(doc)            
         return doc       
+
 
 class PR(object):
     '''All PRs should define  how to process a doc'''
@@ -125,8 +126,23 @@ class DataSink(PR):
         return self.data
 
 class DataSource(PR):
+
     def iter_docs(self):
         pass
+
+class PipeLineResults(DataSource, DataSink):
+
+    def __init__(self, docs, exceptions):
+        self.docs = docs
+        self.exceptions = exceptions
+
+    def __iter__(self):
+        for doc in self.docs:
+            yield doc
+
+    def iter_docs(self):
+        for doc in self.docs:
+            yield doc
 
 
 class PipelineException(Exception):

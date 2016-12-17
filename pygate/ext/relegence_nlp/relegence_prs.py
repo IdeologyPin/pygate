@@ -22,7 +22,7 @@ class RelEntityTagger(PR):
         for e in entities:
             wikidata_id = None
 
-            ref = e['references']
+            ref = e.get('references', [])
             for r in ref:
                 if r['type'] == 'Wikidata':
                     wikidata_id = r["id"]
